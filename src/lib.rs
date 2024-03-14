@@ -1,3 +1,16 @@
+//! #Minigrep Crate
+//!
+//! `minigrep` is a simple implementation of the `grep` CLI tool that makes use of many core Rust features such as:
+//! - Error Handling
+//! - I/O
+//! - Environment Variables
+//! - Writing Tests
+//! - Traits and Lifetimes
+//! - Common Collections such as Vec and String
+//! - Modules
+//! - Iterators and Closures
+//! - Documentation Comments
+
 use std::env;
 use std::error::Error;
 use std::fs;
@@ -48,6 +61,15 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Searches `contents` line by line for the exact query string `query`
+///
+/// # Example
+///
+/// ```
+/// let query = "duct";
+/// let contents = "Rust:\nsafe, fast, productive.\nPick three.\nDuct";
+/// assert_eq!(vec!["safe, fast, productive."], minigrep::search(query, contents));
+/// ```
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
@@ -55,11 +77,20 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
         .collect()
 }
 
+/// Searches `contents` line by line for the query string `query` ignoring case
+///
+/// # Example
+///
+/// ```
+/// let query = "rUsT";
+/// let contents = "Rust:\nsafe, fast, productive.\nPick three.\nTrust me.";
+/// assert_eq!(vec!["Rust:", "Trust me."], minigrep::search_case_insensitive(query, contents));
+/// ```
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
     contents
         .lines()
-        .filter(|line| line.contains(&query))
+        .filter(|line| line.to_lowercase().contains(&query))
         .collect()
 }
 
@@ -74,8 +105,7 @@ mod tests {
 Rust:
 safe, fast, productive.
 Pick three.
-Duct tape.";
-
+Duct.";
         assert_eq!(vec!["safe, fast, productive."], search(query, contents));
     }
 
