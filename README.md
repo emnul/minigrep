@@ -10,6 +10,7 @@ A simple grep implementation in Rust. I created this project to familiarize myse
 - Common Collections such as Vec and String
 - Modules
 - Iterators and Closures
+- Documentation Comments
 
 ## Usage
 
